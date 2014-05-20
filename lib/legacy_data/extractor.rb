@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-module Legacy::Extractor
+class Legacy::Extractor
   # == Constants ============================================================
 
   # == Module Methods =======================================================
