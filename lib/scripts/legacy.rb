@@ -10,7 +10,7 @@ require 'optparse'
 
 def sources
   %w[
-    source1
+    sample_source
   ]
 end
 
@@ -43,43 +43,8 @@ def import!
     puts "Generating filter for source #{source}"
 
     legacy_entities = LegacySource.where(name: source).first.legacy_entities
-
-    # Re-order legacy_entities: ego (hoh), ep01 (spouse) then the rest (kids/dependents)
-    case (source)
-      when 'A01-01-01', 'A19-01-01', 'A19-01-02', 'A19-01-03', 'A19-01-04'
-        hohs_and_spouses = 
-          legacy_entities.where("(raw_data->>'Parent\u{00E9}') = ?", "ego") + 
-          legacy_entities.where("(raw_data->>'Parent\u{00E9}') = ?", "ep01")
-
-        other = legacy_entities - hohs_and_spouses
-
-        legacy_entities = hohs_and_spouses + other
-      end
-
-    filtered_entities =
-      case (source)
-      when 'A01-01-01'
-        Legacy::Filter::A010101Filter.new(legacy_entities)
-      when 'A19-01-01', 'A19-01-02', 'A19-01-03', 'A19-01-04'
-        Legacy::Filter::A190101Filter.new(legacy_entities)
-      when 'A01-01-04'
-        Legacy::Filter::A010104Filter.new(legacy_entities)
-      when 'A19-01-05', 'A19-01-06', 'A19-01-07', 'A19-01-08'
-        Legacy::Filter::A190105Filter.new(legacy_entities)
-      when 'A01-01-06'
-        Legacy::Filter::A010106Filter.new(legacy_entities)
-      when 'A16-01-03'
-        Legacy::Filter::A160103Filter.new(legacy_entities)
-      when 'A17-02-03'
-        Legacy::Filter::A170203Filter.new(legacy_entities)
-      when 'A17-02-04'
-        Legacy::Filter::A170204Filter.new(legacy_entities)
-      when 'A19-01-09', 'A19-01-10', 'A19-01-11', 'A19-01-12'
-        Legacy::Filter::A190109Filter.new(legacy_entities)
-      else
-        legacy_entities
-      end
-
+    filtered_entities = Legacy::Filter::A010101Filter.new(legacy_entities)
+     
     # Pass the filtered data to the importer to create the actual record using the extracted data
     puts "Importing Data from source #{source}"
 

@@ -1,4 +1,4 @@
-class Legacy::Filter::Source1Filter < Legacy::Filter
+class Legacy::Filter::SampleSourceFilter < Legacy::Filter
   def allow?(record)
     fields = {}
 
