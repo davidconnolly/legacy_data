@@ -1,10 +1,8 @@
 #!/usr/bin/env ruby
-
-unless (defined?(Rails))
-  exec(File.expand_path('../bin/rails', File.dirname(__FILE__)), 'runner', __FILE__, *ARGV)
-end
   
 require 'optparse'
+
+@assets_path = '/Users/davidconnolly/twg/legacy_data/assets/'
 
 # == Support Methods ========================================================
 
@@ -57,8 +55,6 @@ def import!
 end
 
 # == Main ===================================================================
-
-@assets_path = [ Rails.root.to_path, '/assets/' ].join
 
 parser = OptionParser.new do |parser|
   parser.banner = "Usage: legacy [command] [options]"
