@@ -1,0 +1,6 @@
+postgresql:
+  :adapter: postgresql
+  :username: davidconnolly
+  :password: davidconnolly
+  :database: legacy_data_test
+  :min_messages: ERROR
