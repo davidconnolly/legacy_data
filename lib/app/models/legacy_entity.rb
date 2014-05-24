@@ -19,12 +19,6 @@ class LegacyEntity < ActiveRecord::Base
   # == Scopes ================================================================
 
   # == Class Methods =========================================================
-
-  def self.raw_data_remapped(mapping)
-    all.collect do |entity|
-      entity.raw_data_remapped(mapping)
-    end
-  end
   
   def self.generate_CSV_error_report
     CSV.generate do |csv|
@@ -39,14 +33,6 @@ class LegacyEntity < ActiveRecord::Base
   end
 
   # == Instance Methods ======================================================
-
-  def raw_data_remapped(mapping)
-    Hash[
-      mapping.collect do |key, value|
-        [ value, self.raw_data[key] ]
-      end
-    ]
-  end
 
 protected
   def assign_default_values

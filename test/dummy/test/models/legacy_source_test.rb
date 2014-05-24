@@ -20,10 +20,4 @@ class LegacySourceTest < ActiveSupport::TestCase
 
     assert_created legacy_source
   end
-
-  def test_create_dummy
-    legacy_source = LegacySource.create
-
-    assert_created legacy_source
-  end
 end
